@@ -1,0 +1,435 @@
+import React, { useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { ToastProvider, Toast, ToastTitle, ToastDescription } from "@/components/ui/toast";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Menu, MapPin, Phone, Mail, Facebook, Instagram, Linkedin, Youtube, Shield, Gavel, Scale, Users, BookOpen, Filter } from "lucide-react";
+
+/**
+ * AVUKAT PORTFÖY SİTESİ – REACT TEK DOSYA BİLEŞENİ
+ * -------------------------------------------------
+ * – Tasarım: Beyaz zemin, lacivert (#0a2342) ve altın (#c5a880) aksanlar.
+ * – Özellikler: Sticky navbar, responsive grid, hızlı yükleme, SEO-dostu işaretlemeler,
+ *   blog filtreleme (kategori & tarih), mini "Admin" paneli (manuel makale ekleme),
+ *   Türkçe metinler, harita gömme, sosyal ikonlar.
+ * – Not: Backend entegrasyonu yerine örnek form doğrulaması ve mock veri bulunur.
+ *   Üretimde formu bir e-posta servisine (EmailJS, Formspark) veya backend API’ye bağlayın.
+ */
+
+const PALETTE = {
+  navy: "#0a2342",
+  gold: "#c5a880",
+  ink: "#0b1a2b",
+  paper: "#ffffff",
+  slate: "#64748b",
+};
+
+const expertiseList = [
+  { title: "Aile Hukuku", icon: Users, desc: "Boşanma, velayet, nafaka, mal paylaşımı süreçleri." },
+  { title: "Ticaret Hukuku", icon: Scale, desc: "Sözleşmeler, şirket kuruluşu, birleşme & devralmalar." },
+  { title: "Ceza Hukuku", icon: Shield, desc: "Soruşturma & kovuşturma aşamalarında etkin savunma." },
+  { title: "İş Hukuku", icon: Gavel, desc: "Hizmet tespiti, kıdem/ihbar tazminatı, işe iade davaları." },
+  { title: "Gayrimenkul Hukuku", icon: MapPin, desc: "Kira, tapu iptal/tescil, kat mülkiyeti uyuşmazlıkları." },
+  { title: "Sözleşmeler Hukuku", icon: BookOpen, desc: "Sözleşme hazırlanması, revizyonu ve risk analizi." },
+];
+
+// Başlangıç blog verisi (örnek)
+const initialPosts = [
+  {
+    id: 1,
+    title: "Boşanma Davalarında Sık Yapılan Hatalar",
+    category: "Aile Hukuku",
+    date: "2025-07-02",
+    cover: "https://images.unsplash.com/photo-1528747045269-390fe33c19d8?q=80&w=1200&auto=format&fit=crop",
+    excerpt: "Boşanma sürecinde hak kaybına yol açabilecek başlıca noktalar ve dikkat edilmesi gerekenler…",
+  },
+  {
+    id: 2,
+    title: "Ticari Sözleşmelerde Dikkat Edilecek 7 Madde",
+    category: "Ticaret Hukuku",
+    date: "2025-06-15",
+    cover: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop",
+    excerpt: "Ticari sözleşmelerde tarafların sıkça gözden kaçırdığı kritik hususlar…",
+  },
+  {
+    id: 3,
+    title: "İşçi Alacaklarında Zamanaşımı Süreleri",
+    category: "İş Hukuku",
+    date: "2025-05-10",
+    cover: "https://images.unsplash.com/photo-1554224154-22dec7ec8818?q=80&w=1200&auto=format&fit=crop",
+    excerpt: "İşçi alacaklarının talebinde zamanaşımı süreleri ve uygulamaya etkileri…",
+  },
+];
+
+export default function LawyerPortfolioSite() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [posts, setPosts] = useState(initialPosts);
+  const [category, setCategory] = useState("Tümü");
+  const [query, setQuery] = useState("");
+  const [year, setYear] = useState("Tümü");
+  const years = useMemo(() => ["Tümü", ...new Set(posts.map(p => new Date(p.date).getFullYear().toString()))], [posts]);
+  const categories = useMemo(() => ["Tümü", ...new Set(posts.map(p => p.category))], [posts]);
+
+  const filteredPosts = useMemo(() => {
+    return posts
+      .filter(p => (category === "Tümü" ? true : p.category === category))
+      .filter(p => (year === "Tümü" ? true : new Date(p.date).getFullYear().toString() === year))
+      .filter(p => (query ? (p.title + p.excerpt).toLowerCase().includes(query.toLowerCase()) : true))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [posts, category, year, query]);
+
+  // Basit admin ekleme formu (sadece client-side, demo amaçlı)
+  const [admin, setAdmin] = useState({ title: "", category: "Aile Hukuku", date: "", cover: "", excerpt: "" });
+
+  function addPost(e) {
+    e.preventDefault();
+    const id = Math.max(0, ...posts.map(p => p.id)) + 1;
+    setPosts(prev => [{ id, ...admin }, ...prev]);
+    setAdmin({ title: "", category: "Aile Hukuku", date: "", cover: "", excerpt: "" });
+    alert("Makale eklendi (demo). Üretimde bu formu backend'e bağlayın.");
+  }
+
+  return (
+    <div style={{ fontFamily: "Inter, ui-sans-serif, system-ui" }} className="bg-white text-slate-800">
+      {/* CSS Variables for theme */}
+      <style>{`:root{--navy:${PALETTE.navy};--gold:${PALETTE.gold};--ink:${PALETTE.ink}} .brand-gradient{background:linear-gradient(135deg,var(--navy),#132e57);} .gold-underline{box-shadow: inset 0 -0.35em 0 0 rgba(197,168,128,.25);} .sticky-blur{backdrop-filter:saturate(180%) blur(10px); background:rgba(255,255,255,.85);}`}</style>
+
+      {/* Sticky Navbar */}
+      <header className="sticky top-0 z-50 sticky-blur border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <a href="#home" className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-2xl brand-gradient grid place-items-center shadow-md">
+              <Gavel className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <div className="text-[13px] uppercase tracking-widest text-slate-500">Avukat</div>
+              <div className="text-lg font-semibold" style={{color:PALETTE.navy}}>Ad Soyad</div>
+            </div>
+          </a>
+
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            {[
+              { href: "#home", label: "Ana Sayfa" },
+              { href: "#about", label: "Hakkında" },
+              { href: "#expertise", label: "Uzmanlık" },
+              { href: "#blog", label: "Makale" },
+              { href: "#contact", label: "İletişim" },
+            ].map(i => (
+              <a key={i.href} href={i.href} className="hover:text-slate-900 text-slate-600 transition">{i.label}</a>
+            ))}
+            <a href="#contact" className="ml-2">
+              <Button className="rounded-2xl" style={{background:PALETTE.navy}}>
+                Randevu Al
+              </Button>
+            </a>
+          </nav>
+
+          {/* Mobile menu */}
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button className="md:hidden p-2 rounded-xl border border-slate-200" aria-label="Menüyü aç">
+                <Menu className="w-5 h-5" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80">
+              <SheetHeader>
+                <SheetTitle>Navigasyon</SheetTitle>
+              </SheetHeader>
+              <div className="mt-6 grid gap-4">
+                {["Ana Sayfa","Hakkında","Uzmanlık","Makale","İletişim"].map((label, idx) => (
+                  <a key={idx} href={["#home","#about","#expertise","#blog","#contact"][idx]} className="py-2 text-base" onClick={() => setMobileOpen(false)}>
+                    {label}
+                  </a>
+                ))}
+                <a href="#contact" onClick={() => setMobileOpen(false)}>
+                  <Button className="w-full rounded-2xl" style={{background:PALETTE.navy}}>Randevu Al</Button>
+                </a>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section id="home" className="max-w-6xl mx-auto px-4 pt-10 pb-16 grid md:grid-cols-[1.2fr_.8fr] gap-10 items-center">
+        <div>
+          <motion.h1 initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{duration:.5}} className="text-3xl md:text-5xl font-bold leading-tight gold-underline" style={{color:PALETTE.ink}}>
+            Modern, Güven Veren Hukuki Danışmanlık
+          </motion.h1>
+          <p className="mt-5 text-slate-600 max-w-prose">
+            Müvekkillerine stratejik, şeffaf ve sonuç odaklı çözümler sunan <strong>Ad Soyad</strong>,
+            ağırlıklı olarak ticaret, aile ve ceza hukuku alanlarında çalışmaktadır.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="tel:+90XXXXXXXXXX"><Button variant="outline" className="rounded-2xl border-slate-300"><Phone className="w-4 h-4 mr-2"/>Telefon</Button></a>
+            <a href="mailto:info@ornek.av.tr"><Button className="rounded-2xl" style={{background:PALETTE.navy}}><Mail className="w-4 h-4 mr-2"/>E‑posta</Button></a>
+          </div>
+
+          {/* Uzmanlık rozetleri */}
+          <div className="mt-8 flex flex-wrap gap-2">
+            {expertiseList.slice(0,4).map((e) => (
+              <Badge key={e.title} className="rounded-xl" style={{background:PALETTE.gold, color:"#1f2937"}}>{e.title}</Badge>
+            ))}
+          </div>
+        </div>
+
+        {/* Fotoğraf kutusu */}
+        <motion.div initial={{opacity:0,scale:.98}} animate={{opacity:1,scale:1}} transition={{duration:.6, delay:.1}} className="relative">
+          <div className="aspect-[4/5] w-full rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+            <img alt="Avukat fotoğrafı" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop" className="object-cover w-full h-full"/>
+          </div>
+          <div className="absolute -bottom-4 -left-4 bg-white border border-slate-200 rounded-2xl p-4 shadow-md flex items-center gap-3">
+            <Gavel className="w-5 h-5" style={{color:PALETTE.navy}}/>
+            <span className="text-sm">10+ Yıl Deneyim</span>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Hakkında */}
+      <section id="about" className="bg-slate-50 py-16 border-t border-slate-200">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-10 items-start">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold" style={{color:PALETTE.ink}}>Hakkında</h2>
+              <p className="mt-4 text-slate-600">
+                Ad Soyad, [Üniversite Adı] Hukuk Fakültesi mezunudur. Kariyeri boyunca ulusal ve
+                uluslararası şirketlerle çalışmış, çeşitli yayımlarda makaleleri yer almıştır.
+              </p>
+              <ul className="mt-6 space-y-3 text-slate-700">
+                <li><strong>Eğitim:</strong> [Üniversite], [Yüksek Lisans varsa]</li>
+                <li><strong>Üyelikler:</strong> [Baro], [Mesleki Dernek/Komisyon]</li>
+                <li><strong>Diller:</strong> Türkçe, İngilizce [veya diğer diller]</li>
+              </ul>
+            </div>
+
+            <Card className="rounded-3xl border-slate-200">
+              <CardHeader>
+                <CardTitle>Kariyer Özeti</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-5">
+                {[
+                  { year: "2025", text: "Kurucu, Ad Soyad Hukuk & Danışmanlık" },
+                  { year: "2021", text: "Kıdemli Avukat, [Kanzlei/Şirket]" },
+                  { year: "2018", text: "Avukat, [Kanzlei/Şirket]" },
+                  { year: "2016", text: "Stajyer Avukat, [Baro]" },
+                ].map((i) => (
+                  <div key={i.year} className="flex items-start gap-4">
+                    <div className="w-16 text-sm font-semibold" style={{color:PALETTE.navy}}>{i.year}</div>
+                    <div className="flex-1 text-slate-700">{i.text}</div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Uzmanlık Alanları */}
+      <section id="expertise" className="py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold" style={{color:PALETTE.ink}}>Uzmanlık Alanları</h2>
+          <p className="mt-2 text-slate-600">İhtiyacınıza özel, sonuç odaklı danışmanlık.</p>
+
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {expertiseList.map(({ title, icon: Icon, desc }) => (
+              <Card key={title} className="rounded-3xl border-slate-200 hover:shadow-lg transition">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl grid place-items-center" style={{background: "rgba(10,35,66,0.08)"}}>
+                      <Icon className="w-5 h-5" style={{color:PALETTE.navy}}/>
+                    </div>
+                    <h3 className="font-semibold" style={{color:PALETTE.ink}}>{title}</h3>
+                  </div>
+                  <p className="mt-3 text-sm text-slate-600">{desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Blog / Makaleler */}
+      <section id="blog" className="py-16 bg-slate-50 border-y border-slate-200">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <h2 className="text-2xl md:text-3xl font-bold" style={{color:PALETTE.ink}}>Makale & Blog</h2>
+
+            <div className="flex items-center gap-2 text-slate-500"><Filter className="w-4 h-4"/>Filtrele</div>
+          </div>
+
+          <div className="mt-6 grid gap-3 md:grid-cols-[1fr_1fr_1fr]">
+            <Input placeholder="Ara (başlık/özet)" value={query} onChange={(e) => setQuery(e.target.value)} className="rounded-2xl"/>
+            <Select value={category} onValueChange={setCategory}>
+              <SelectTrigger className="rounded-2xl"><SelectValue placeholder="Kategori" /></SelectTrigger>
+              <SelectContent>
+                {categories.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Select value={year} onValueChange={setYear}>
+              <SelectTrigger className="rounded-2xl"><SelectValue placeholder="Yıl" /></SelectTrigger>
+              <SelectContent>
+                {years.map(y => <SelectItem key={y} value={y}>{y}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPosts.map((p) => (
+              <article key={p.id} className="group rounded-3xl overflow-hidden border border-slate-200 bg-white hover:shadow-lg transition">
+                <a href="#" className="block">
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img src={p.cover} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition"/>
+                  </div>
+                  <div className="p-5">
+                    <div className="flex items-center justify-between text-xs text-slate-500">
+                      <span className="font-medium" style={{color:PALETTE.navy}}>{p.category}</span>
+                      <time dateTime={p.date}>{new Date(p.date).toLocaleDateString("tr-TR")}</time>
+                    </div>
+                    <h3 className="mt-2 font-semibold text-lg" style={{color:PALETTE.ink}}>{p.title}</h3>
+                    <p className="mt-1 text-slate-600 text-sm">{p.excerpt}</p>
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+
+          {/* Basit Admin Paneli (Demo) */}
+          <div className="mt-12">
+            <Tabs defaultValue="liste">
+              <TabsList className="rounded-2xl">
+                <TabsTrigger value="liste">Yazılar</TabsTrigger>
+                <TabsTrigger value="admin">Admin (Demo)</TabsTrigger>
+              </TabsList>
+              <TabsContent value="liste">
+                <p className="text-sm text-slate-500">Yukarıdaki filtrelerle kategori ve tarihe göre süzebilirsiniz.</p>
+              </TabsContent>
+              <TabsContent value="admin">
+                <Card className="rounded-3xl border-slate-200">
+                  <CardHeader>
+                    <CardTitle>Yeni Makale Ekle (Demo)</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={addPost} className="grid md:grid-cols-2 gap-4">
+                      <Input required placeholder="Başlık" value={admin.title} onChange={e=>setAdmin(a=>({...a,title:e.target.value}))} className="rounded-2xl"/>
+                      <Select value={admin.category} onValueChange={(v)=>setAdmin(a=>({...a,category:v}))}>
+                        <SelectTrigger className="rounded-2xl"><SelectValue placeholder="Kategori" /></SelectTrigger>
+                        <SelectContent>
+                          {expertiseList.map(e => <SelectItem key={e.title} value={e.title}>{e.title}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                      <Input required type="date" value={admin.date} onChange={e=>setAdmin(a=>({...a,date:e.target.value}))} className="rounded-2xl"/>
+                      <Input placeholder="Kapak görseli URL" value={admin.cover} onChange={e=>setAdmin(a=>({...a,cover:e.target.value}))} className="rounded-2xl"/>
+                      <div className="md:col-span-2">
+                        <Textarea required placeholder="Kısa özet" value={admin.excerpt} onChange={e=>setAdmin(a=>({...a,excerpt:e.target.value}))} className="rounded-2xl"/>
+                      </div>
+                      <div className="md:col-span-2 flex justify-end">
+                        <Button type="submit" className="rounded-2xl" style={{background:PALETTE.navy}}>Ekle</Button>
+                      </div>
+                    </form>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </section>
+
+      {/* İletişim */}
+      <section id="contact" className="py-16">
+        <div className="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-10">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold" style={{color:PALETTE.ink}}>İletişim</h2>
+            <p className="mt-2 text-slate-600">Sorularınız ve randevu talepleriniz için bize ulaşın.</p>
+
+            <div className="mt-6 space-y-3 text-slate-700">
+              <div className="flex items-center gap-3"><MapPin className="w-5 h-5" style={{color:PALETTE.navy}}/> Örnek Mah., Örnek Cd. No:1, İstanbul</div>
+              <div className="flex items-center gap-3"><Phone className="w-5 h-5" style={{color:PALETTE.navy}}/> +90 (532) 000 00 00</div>
+              <div className="flex items-center gap-3"><Mail className="w-5 h-5" style={{color:PALETTE.navy}}/> info@ornek.av.tr</div>
+            </div>
+
+            <div className="mt-6 rounded-3xl overflow-hidden border border-slate-200">
+              <iframe title="Harita" src="https://www.google.com/maps?q=istanbul&output=embed" className="w-full h-60" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            </div>
+          </div>
+
+          <Card className="rounded-3xl border-slate-200">
+            <CardHeader>
+              <CardTitle>Bize Yazın</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ContactForm />
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-6 items-center">
+          <div className="text-sm text-slate-600">© {new Date().getFullYear()} Ad Soyad Hukuk & Danışmanlık. Tüm hakları saklıdır.</div>
+          <div className="flex md:justify-end gap-3">
+            {[
+              { icon: Linkedin, href: "#" },
+              { icon: Instagram, href: "#" },
+              { icon: Facebook, href: "#" },
+              { icon: Youtube, href: "#" },
+            ].map(({icon:Icon,href},i)=> (
+              <a key={i} href={href} className="p-2 rounded-xl border border-slate-200 hover:bg-slate-50"><Icon className="w-4 h-4"/></a>
+            ))}
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function ContactForm(){
+  const [form, setForm] = useState({ adsoyad: "", email: "", tel: "", mesaj: "" });
+  const [status, setStatus] = useState("");
+
+  function onSubmit(e){
+    e.preventDefault();
+    // Basit doğrulama
+    if(!form.adsoyad || !form.email || !form.mesaj){
+      setStatus("Lütfen gerekli alanları doldurun.");
+      return;
+    }
+    // Demo amaçlı, burada e-posta/HTTP isteği yapılabilir
+    setStatus("Mesajınız alındı. En kısa sürede dönüş yapacağız.");
+    setForm({ adsoyad: "", email: "", tel: "", mesaj: "" });
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="grid gap-3">
+      <Input placeholder="Ad Soyad *" value={form.adsoyad} onChange={e=>setForm(f=>({...f,adsoyad:e.target.value}))} className="rounded-2xl"/>
+      <Input type="email" placeholder="E‑posta *" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} className="rounded-2xl"/>
+      <Input placeholder="Telefon" value={form.tel} onChange={e=>setForm(f=>({...f,tel:e.target.value}))} className="rounded-2xl"/>
+      <Textarea placeholder="Mesaj *" value={form.mesaj} onChange={e=>setForm(f=>({...f,mesaj:e.target.value}))} className="rounded-2xl min-h-32"/>
+      <div className="flex items-center justify-between">
+        <small className="text-slate-500">* Zorunlu alan</small>
+        <Button type="submit" className="rounded-2xl px-6" style={{background:PALETTE.navy}}>Gönder</Button>
+      </div>
+      {status && <div className="text-sm text-slate-600">{status}</div>}
+    </form>
+  );
+}
+
+/**
+ * KURULUM NOTLARI (Özet)
+ * -------------------------------------------------
+ * 1) Bu tek dosya bileşenini Next.js / Vite projenizde bir sayfaya ekleyin.
+ * 2) Tailwind ve shadcn/ui kurulu olmalı. (Tailwind config ve shadcn init)
+ * 3) Üretimde: 
+ *    – Blog verisini bir CMS'den (WordPress REST, Strapi, Payload) veya Markdown'dan çekin.
+ *    – İletişim formunu bir servis veya API ile bağlayın.
+ *    – <head> meta/OG etiketlerini ve sitemap/robots'u ekleyin (SEO).
+ *    – Görselleri optimize edin (next/image) ve lazy-loading kullanın.
+ * 4) Renkler: Lacivert (#0a2342), Altın (#c5a880), beyaz zemin.
+ */

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yönetim Girişi | Kutluhan Yüksel</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/logo-ky-transparent.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="admin">
+  <a class="skip-link" href="#main-content">İçeriğe geç</a>
+  <div id="site-header-mount"></div>
+  <main id="main-content" class="section">
+    <div class="container admin-layout">
+      <form id="adminLoginForm" class="card admin-card" novalidate>
+        <p class="admin-kicker">YÖNETİM ALANI</p>
+        <h1 class="card-title">Yönetim Girişi</h1>
+        <p class="admin-note">Bu alan demo amaçlıdır. Üretim ortamında sunucu taraflı kimlik doğrulama kullanılmalıdır.</p>
+        <label>Kullanıcı Adı
+          <input id="username" name="username" type="text" autocomplete="username" required>
+        </label>
+        <label>Şifre</label>
+        <div class="password-row">
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button id="togglePasswordBtn" class="btn btn-outline btn-small" type="button" aria-label="Şifreyi göster">Göster</button>
+        </div>
+        <p id="capsWarning" class="admin-warning" aria-live="polite"></p>
+        <button class="btn btn-cta admin-primary-btn" type="submit">Giriş Yap</button>
+        <p id="adminStatus" class="form-status" role="status" aria-live="polite"></p>
+        <p class="admin-note">Yalnızca yetkili kullanıcılar giriş yapabilir.</p>
+      </form>
+
+      <aside class="card admin-help-card">
+        <h2 class="card-title">Yönetim Notları</h2>
+        <ul class="info-list">
+          <li>En fazla 5 hatalı denemeden sonra geçici kilit uygulanır.</li>
+          <li>Başarılı girişte oturum otomatik olarak başlatılır.</li>
+          <li>Demo giriş bilgileri proje dokümantasyonunda yer alır.</li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+  <div id="site-footer-mount"></div>
+  <script src="layout.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>

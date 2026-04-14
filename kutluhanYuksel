@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Av. [İsim] - Hukuk Bürosu</title>
+    <meta name="description" content="Profesyonel hukuki danışmanlık ve temsil hizmetleri">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>Av. [İsim Soyisim]</h2>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link">Hakkında</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#services" class="nav-link">Uzmanlık Alanları</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#blog" class="nav-link">Makaleler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link">İletişim</a>
+                    </li>
+                </ul>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Ana Sayfa -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Profesyonel Hukuki Danışmanlık</h1>
+                    <p class="hero-subtitle">25 yıllık deneyim ile hukuki haklarınızı koruyoruz</p>
+                    <div class="hero-buttons">
+                        <a href="#contact" class="btn btn-primary">Randevu Al</a>
+                        <a href="#about" class="btn btn-secondary">Hakkımda</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="lawyer-photo.jpg" alt="Avukat Fotoğrafı" class="lawyer-photo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hızlı Bilgiler -->
+    <section class="quick-info">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Telefon</h3>
+                    <p>+90 212 XXX XX XX</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>E-posta</h3>
+                    <p>info@example.com</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Adres</h3>
+                    <p>İstanbul, Türkiye</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Çalışma Saatleri</h3>
+                    <p>Pzt-Cum 09:00-18:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hakkında -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Hakkımda</h2>
+                <p>Profesyonel deneyim ve uzmanlık</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Av. [İsim Soyisim]</h3>
+                    <p class="about-description">
+                        25 yıllık deneyim ile müvekkillerime en kaliteli hukuki hizmeti sunmaktayım. 
+                        Özellikle aile hukuku, ticaret hukuku ve ceza hukuku alanlarında uzmanlaşmış bulunmaktayım.
+                    </p>
+                    
+                    <div class="credentials">
+                        <div class="credential-item">
+                            <h4><i class="fas fa-graduation-cap"></i> Eğitim</h4>
+                            <ul>
+                                <li>İstanbul Üniversitesi Hukuk Fakültesi (1998)</li>
+                                <li>Yüksek Lisans - Özel Hukuk (2001)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="credential-item">
+                            <h4><i class="fas fa-briefcase"></i> Deneyim</h4>
+                            <ul>
+                                <li>Serbest Avukat (1999-Günümüz)</li>
+                                <li>XYZ Hukuk Bürosu Kurucu Ortağı (2005-2015)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="credential-item">
+                            <h4><i class="fas fa-certificate"></i> Üyelikler</h4>
+                            <ul>
+                                <li>İstanbul Barosu Üyesi</li>
+                                <li>Türkiye Barolar Birliği</li>
+                                <li>Aile Hukuku Derneği</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Uzmanlık Alanları -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Uzmanlık Alanları</h2>
+                <p>Geniş yelpazede hukuki hizmetler</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Aile Hukuku</h3>
+                    <p>Boşanma, velayet, nafaka, mal paylaşımı ve aile içi hukuki sorunlar</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Ticaret Hukuku</h3>
+                    <p>Şirket kuruluşu, ticari sözleşmeler, ortaklık anlaşmaları</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h3>Ceza Hukuku</h3>
+                    <p>Ceza davalarında müdafaa, suç mağduru hakları, ceza hukuku danışmanlığı</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Gayrimenkul Hukuku</h3>
+                    <p>Tapu işlemleri, kira sözleşmeleri, emlak alım-satım</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>İş Hukuku</h3>
+                    <p>İşçi-işveren uyuşmazlıkları, iş sözleşmeleri, tazminat davaları</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Sigorta Hukuku</h3>
+                    <p>Sigorta tazminat davaları, poliçe uyuşmazlıkları</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog/Makaleler -->
+    <section id="blog" class="blog">
+        <div class="container">
+            <div class="section-header">
+                <h2>Makaleler</h2>
+                <p>Hukuki konularda güncel yazılar</p>
+            </div>
+            
+            <div class="blog-filters">
+                <button class="filter-btn active" data-filter="all">Tümü</button>
+                <button class="filter-btn" data-filter="aile">Aile Hukuku</button>
+                <button class="filter-btn" data-filter="ticaret">Ticaret Hukuku</button>
+                <button class="filter-btn" data-filter="ceza">Ceza Hukuku</button>
+            </div>
+            
+            <div class="blog-grid" id="blog-grid">
+                <article class="blog-card" data-category="aile">
+                    <div class="blog-image">
+                        <img src="blog1.jpg" alt="Makale 1">
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-date">15 Mart 2024</span>
+                            <span class="blog-category">Aile Hukuku</span>
+                        </div>
+                        <h3>Boşanma Davalarında Mal Paylaşımı</h3>
+                        <p>Boşanma sürecinde mal paylaşımının nasıl yapıldığı ve dikkat edilmesi gereken hususlar...</p>
+                        <a href="makale-1.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+                
+                <article class="blog-card" data-category="ticaret">
+                    <div class="blog-image">
+                        <img src="blog2.jpg" alt="Makale 2">
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-date">10 Mart 2024</span>
+                            <span class="blog-category">Ticaret Hukuku</span>
+                        </div>
+                        <h3>Şirket Kuruluş Süreçleri</h3>
+                        <p>Yeni bir şirket kurarken dikkat edilmesi gereken yasal gereklilikler ve süreçler...</p>
+                        <a href="makale-2.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+                
+                <article class="blog-card" data-category="ceza">
+                    <div class="blog-image">
+                        <img src="blog3.jpg" alt="Makale 3">
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-date">5 Mart 2024</span>
+                            <span class="blog-category">Ceza Hukuku</span>
+                        </div>
+                        <h3>Ceza Davalarında Müdafaa Hakkı</h3>
+                        <p>Ceza davalarında sanığın sahip olduğu müdafaa hakları ve bu hakların kullanımı...</p>
+                        <a href="makale-3.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- İletişim -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>İletişim</h2>
+                <p>Hukuki danışmanlık için bizimle iletişime geçin</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>İletişim Bilgileri</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Adres</h4>
+                            <p>Levent Mahallesi, Büyükdere Caddesi No:123<br>Şişli/İstanbul</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Telefon</h4>
+                            <p>+90 212 XXX XX XX</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>E-posta</h4>
+                            <p>info@example.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Çalışma Saatleri</h4>
+                            <p>Pazartesi - Cuma: 09:00 - 18:00<br>Cumartesi: 09:00 - 13:00</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form" id="contact-form">
+                    <h3>Mesaj Gönder</h3>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Adınız Soyadınız" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="E-posta Adresin

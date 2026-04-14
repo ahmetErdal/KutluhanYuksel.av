@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Yönetim sayfaları dizine alınmaz (sayfa içinde noindex)
+Disallow: /admin.html
+Disallow: /panel.html
+
+Sitemap: https://example.com/sitemap.xml

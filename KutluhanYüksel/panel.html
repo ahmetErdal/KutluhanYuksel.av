@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yönetim Paneli | Kutluhan Yüksel</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/logo-ky-transparent.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="panel">
+  <a class="skip-link" href="#main-content">İçeriğe geç</a>
+  <div id="site-header-mount"></div>
+  <main id="main-content" class="section">
+    <div class="container">
+      <section class="panel-overview">
+        <article class="card panel-stat">
+          <p class="panel-stat-label">Toplam Blog Yazısı</p>
+          <p id="statTotalPosts" class="panel-stat-value">0</p>
+        </article>
+        <article class="card panel-stat">
+          <p class="panel-stat-label">Bu Ay Eklenen</p>
+          <p id="statThisMonth" class="panel-stat-value">0</p>
+        </article>
+        <article class="card panel-stat">
+          <p class="panel-stat-label">Son Güncelleme</p>
+          <p id="statLastUpdate" class="panel-stat-value">-</p>
+        </article>
+      </section>
+
+      <div class="panel-grid">
+      <section class="card">
+        <h1 class="card-title">Blog Yönetimi</h1>
+        <form id="postForm" class="admin-form" novalidate>
+          <input type="hidden" id="postEditId">
+          <label>Başlık
+            <input type="text" id="postTitle" maxlength="120" required>
+          </label>
+          <label>Kategori
+            <select id="postCategory" required>
+              <option value="">Seçiniz</option>
+              <option value="Aile Hukuku">Aile Hukuku</option>
+              <option value="Ticaret Hukuku">Ticaret Hukuku</option>
+              <option value="Ceza Hukuku">Ceza Hukuku</option>
+              <option value="Is Hukuku">İş Hukuku</option>
+              <option value="İdare Hukuku">İdare Hukuku</option>
+              <option value="Sigorta ve Tahkim Hukuku">Sigorta ve Tahkim Hukuku</option>
+              <option value="Vergi Hukuku">Vergi Hukuku</option>
+              <option value="İcra ve İflas Hukuku">İcra ve İflas Hukuku</option>
+              <option value="Miras Hukuku">Miras Hukuku</option>
+              <option value="Tüketici Hukuku">Tüketici Hukuku</option>
+              <option value="Gayrimenkul Hukuku">Gayrimenkul Hukuku</option>
+              <option value="Sozlesmeler Hukuku">Sözleşmeler Hukuku</option>
+            </select>
+          </label>
+          <label>Tarih
+            <input type="date" id="postDate" required>
+          </label>
+          <label>Öne Çıkan Görsel URL (opsiyonel)
+            <input type="url" id="postCover" placeholder="https://...">
+          </label>
+          <label>Kapak Görseli Yükle (opsiyonel)
+            <input type="file" id="postCoverFile" accept="image/*">
+          </label>
+          <p class="admin-note">Yüklenen dosya en fazla 2 MB olabilir.</p>
+          <label>Özet
+            <textarea id="postExcerpt" rows="4" maxlength="240" required></textarea>
+          </label>
+          <label>Blog İçeriği
+            <textarea id="postContent" rows="12" maxlength="12000" placeholder="Blog metnini paragraf düzeninde yazın. Paragraflar arasında bir satır boşluk bırakın." required></textarea>
+          </label>
+          <div class="panel-form-actions">
+            <button id="savePostBtn" class="btn btn-cta" type="submit">Yayınla</button>
+            <button id="cancelEditBtn" class="btn btn-outline" type="button" hidden>Düzenlemeyi İptal</button>
+          </div>
+          <p id="panelStatus" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="panel-list-head">
+          <h2 class="card-title">Yayınlanan Blog Yazıları</h2>
+          <div class="admin-post-actions">
+            <button id="sanitizePostsBtn" class="btn btn-outline btn-small" type="button">Bozuk Verileri Temizle</button>
+            <button id="logoutBtn" class="btn btn-outline" type="button">Çıkış Yap</button>
+          </div>
+        </div>
+        <div class="panel-list-filters">
+          <input id="adminSearchInput" type="search" placeholder="Başlıkta ara">
+          <select id="adminCategoryFilter">
+            <option value="Tümü">Tüm Kategoriler</option>
+            <option value="Aile Hukuku">Aile Hukuku</option>
+            <option value="Ticaret Hukuku">Ticaret Hukuku</option>
+            <option value="Ceza Hukuku">Ceza Hukuku</option>
+            <option value="Is Hukuku">İş Hukuku</option>
+            <option value="İdare Hukuku">İdare Hukuku</option>
+            <option value="Sigorta ve Tahkim Hukuku">Sigorta ve Tahkim Hukuku</option>
+            <option value="Vergi Hukuku">Vergi Hukuku</option>
+            <option value="İcra ve İflas Hukuku">İcra ve İflas Hukuku</option>
+            <option value="Miras Hukuku">Miras Hukuku</option>
+            <option value="Tüketici Hukuku">Tüketici Hukuku</option>
+            <option value="Gayrimenkul Hukuku">Gayrimenkul Hukuku</option>
+            <option value="Sozlesmeler Hukuku">Sözleşmeler Hukuku</option>
+          </select>
+        </div>
+        <div id="adminPostList" class="admin-post-list"></div>
+      </section>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer-mount"></div>
+  <script src="layout.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
