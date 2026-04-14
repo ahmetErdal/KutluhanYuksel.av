@@ -417,7 +417,7 @@ function setupContactForm() {
       "Mesaj:",
       message
     ];
-    const mailtoHref = `mailto:info@ornek.av.tr?subject=${encodeURIComponent(`[Web sitesi] İletişim: ${name}`)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+    const mailtoHref = `mailto:avkutluhanyuksel@gmail.com?subject=${encodeURIComponent(`[Web sitesi] İletişim: ${name}`)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
 
     status.textContent = "E-posta uygulamanızda taslak açılıyor (Outlook vb.). Açılmazsa varsayılan posta uygulamanızı kontrol edin.";
     window.location.href = mailtoHref;
